@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head th:replace="fragments/common :: head ('Edit profile')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+	<div class="container mt-5">
+
+		<div>
+			<h2 th:text="${quiz.name}"></h2>
+			<h6 class=" badge badge-dark">#<span th:text="${quiz.tag}"></span></h6>
+			<p><strong>Description: </strong><span th:text="${quiz.text}"></span></p>
+		</div>
+
+		<div class="mb-3" th:each="question : ${questions}">
+			<div><strong>Question: </strong>
+				<span th:text="${question.text}"></span>
+			</div>
+			<div class="radio" th:each="option,i: ${question.options.entrySet()}">
+				<label>
+					<input type="radio" th:checked="${option.getKey().equals(question.getAnswerNumber())}"
+						th:name="${question.id}" id="" value="1" th:text=" *{option.getValue()}">
+				</label>
+			</div>
+			<form th:action="${'/question/remove/'+question}" method="post">
+				<input type="submit" class="btn btn-sm d-inline" value="Remove">
+			</form>
+			<a class="btn btn-sm d-inline" th:href="${'/question/edit/'+question}">Edit</a>
+		</div>
+
+		<a class="btn btn-success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+			aria-controls="collapseExample">
+			Add question
+		</a>
+
+		<div class="collapse" id="collapseExample">
+			<div class="form-group mt-3">
+
+				<form action="/question/add" th:object="${question}" method="post">
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="quest" name="text" placeholder="Enter Question..." />
+						</div>
+					</div>
+					<div class="container col-10">
+						<table id="myTable" class=" table order-list">
+							<tbody>
+								<tr>
+									<td class="col-sm-10">
+										<input type="radio" name="answerNumber" value="0">
+										<input type="text" name="options[0]" class="form-control" placeholder="Add Option..." />
+									</td>
+									<td class="col-sm-2"><a class="deleteRow"></a>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" style="text-align: left;">
+										<input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
+									</td>
+								</tr>
+								<tr>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<input type="hidden" name="quiz" th:value="${quiz.id}">
+					<button type="submit" class="btn btn-dark">Add</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/common :: footer"></footer>
+</body>
+<script>
+	$(document).ready(function () {
+		var counter = 1;
+
+		$("#addrow").on("click", function () {
+			var newRow = $("<tr>");
+			var cols = "";
+
+			cols += '<td><input type="radio" name="answerNumber" value="' + counter + '"><input type="text" class="form-control" name="options[' + counter + ']"/></td>'; 
+			cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+			newRow.append(cols);
+			$("table.order-list").append(newRow);
+			counter++;
+		});
+
+		$("table.order-list").on("click", ".ibtnDel", function (event) {
+			$(this).closest("tr").remove();
+			counter -= 1
+		});
+
+	});
+
+</script>
+
+</html>

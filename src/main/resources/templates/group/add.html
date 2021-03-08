@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head ('Add group')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+
+	<div class="container">
+		<div style="width:600px;margin-left: auto;margin-right: auto;margin-top:24px;padding: 24px;">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-user"></i> Create group
+				</div>
+				<div class="card-block" style="padding: 24px;">
+					<form name="f" action="/group/add" th:object="${group}" method="post">
+						<div class="form-group">
+							<label for="txtName">Name</label>
+							<input type="text" class="form-control" th:field="*{name}" id="txtName" placeholder="Name">
+						</div>
+
+						<div class="form-actions">
+							<button type="submit" class="btn btn-success">Add</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="fragments/common :: footer"></footer>
+
+</body>
+
+</html>

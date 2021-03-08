@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head th:replace="fragments/common :: head ('Edit profile')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+
+	<div class="container">
+		<form method="get" action="/" class="form-inline mt-5 mb-5">
+			<input type="text" class="form-control" th:name="filter" th:placeholder="|Search by tag|">
+			<button class="btn btn-outline-success ml-2" type="submit">Search</button>
+		</form>
+    <div th:if="${quizzes}"><h3 class="text-center">Quizzes</h3></div>
+
+    <div th:replace="fragments/quiz_list :: quizList (${quizzes})"></div>
+
+	</div>
+
+	<footer th:replace="fragments/common :: footer"></footer>
+</body>
+
+</html>

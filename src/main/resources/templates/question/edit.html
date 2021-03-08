@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head ('Edit profile')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+
+	<div class="container mt-5">
+		<form action="/question/edit" th:object="${question}" method="post">
+			<div class="bg-light col-8 m-3">
+				<div class="m-2"><strong>Question: </strong>
+					<input hidden type="number" th:field="*{id}" th:value="${question.getId()}">
+					<input type="text" th:field="*{text}" th:value="${question.getText()}">
+					<input hidden th:field="*{quiz}" th:value="${question.getQuiz()}">
+				</div>
+				<div class="radio" th:each="option,i: ${question.options.entrySet()}">
+					<label>
+						<input type="radio" th:field="*{answerNumber}" th:value="${option.getKey()}">
+						<input type="text" th:field="*{options[__${i.index}__]}" class="form-control"
+							th:value="${option.getValue()}" />
+					</label>
+				</div>
+			</div>
+			<input type="submit" class="btn btn-warning p-1" value="Edit">
+		</form>
+	</div>
+
+	<!-- <footer th:insert="blocks/footer :: footer"/> -->
+	<footer th:replace="fragments/common :: footer"></footer>
+</body>
+
+</html>

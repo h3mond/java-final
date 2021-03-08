@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head ('Edit profile')"></head>
+
+<body>
+	<div th:insert="blocks/header :: header" />
+
+	<div class="container">
+		<div class="card card-white grid-margin mt-5">
+			<div class="card-body">
+				<h2><span th:text="${ me.getName() }" /> <span th:text="${ me.getSurname() }" /></h2>
+				<p><strong>Group</strong>: <span th:text="${ me.getGroup().getName() }"/></p>
+				<p><strong>Interests</strong>: <span th:text="${ me.getInterests() }"/></p>
+				<a class="btn btn-info p-1" href="/profile/edit">Edit</a>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/common :: footer"></footer>
+
+</body>
+
+</html>

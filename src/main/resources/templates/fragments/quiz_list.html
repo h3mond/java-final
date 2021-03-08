@@ -1,0 +1,36 @@
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="quizList (quizzes)">
+	<div class="card-columns">
+		<div th:each="quiz : ${quizzes}" class="card my-3">
+			<!--/*@thymesVar id="quiz" type="com.gusev.spring5quizapp.model.Quiz"*/-->
+
+			<div class="card-header pl-3 py-1">
+				<h6 class="badge badge-success">#<span th:text="${quiz.getTag()}"></span></h6>
+				<form th:action="@{/quiz/delete}" method="post" class="float-right">
+					<input type="hidden" th:name="id" th:value="${quiz.getId()}" />
+					<button type="submit" class="close" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</form>
+			</div>
+
+			<div class="card-body">
+				<h5 th:text="${quiz.getName()}" class="card-title">Quiz name</h5>
+				<p class="card-text" th:text="${quiz.getText()}"></p>
+			</div>
+
+			<div class="card-footer">
+				<small class="text-muted" th:text="|Author: |"></small>
+				<a th:href="@{/user-quizzes/__${quiz.getAuthor().getId()}__}" th:text="${quiz.getAuthor().getUsername()}"></a>
+				<!-- <a th:href="@{/quizDetails/__${quiz.id}__}" class="btn btn-secondary float-right btn-sm mb-2">Open Quiz</a> -->
+				<a th:href="${'/pass/'+quiz}" sec:authorize="hasRole('ROLE_USER')"><small class="text-muted">Pass</small></a>
+				<a th:href="${'/quiz/edit?quiz='+quiz}" sec:authorize="hasRole('ROLE_ADMIN')"><small class="text-muted">Edit</small></a>
+				<a th:href="${'/quiz/statistics/'+quiz}" sec:authorize="hasRole('ROLE_ADMIN')"><small class="text-muted">Statistics</small></a>
+				<a th:href="${'/quiz/details/'+quiz}" sec:authorize="hasRole('ROLE_ADMIN')"><small class="text-muted">Details</small></a>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+</html>

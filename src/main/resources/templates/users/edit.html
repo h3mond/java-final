@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head ('Edit profile')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+	<div class="container">
+		<div style="width:600px;margin-left: auto;margin-right: auto;margin-top:24px;padding: 24px;">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-user"></i> Update user
+				</div>
+				<div class="card-block" style="padding: 24px;">
+					<form name="f" th:action="@{/users/edit}" th:object="${user}" method="post">
+						<fieldset>
+							<div th:if="${param.error}" class="alert alert-danger">
+								Something went wrong =(
+							</div>
+
+							<input type="text" th:value="${user.getId()}" name="id" hidden/>
+
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input th:value="${user.getName()}" type="text" class="form-control" id="name" name="name"
+									placeholder="Name">
+							</div>
+
+							<div class="form-group">
+								<label for="username">Surname</label>
+								<input th:value="${user.getSurname()}" type="text" class="form-control" id="surname" name="surname"
+									placeholder="Surname">
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+							</div>
+
+							<div class="form-group">
+								<label for="exampleFormControlSelect1">Group</label>
+								<select name="group" class="form-control" id="exampleFormControlSelect1">
+									<option th:each="group :${groups}" th:value="${group.getName()}" th:text="${group.getName()}"
+										th:selected="${user.getGroup().getName().equals(group.getName())}" />
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="exampleFormControlSelect2">Role</label>
+								<select name="role" class="form-control" id="exampleFormControlSelect2">
+									<option th:each="role :${roles}" th:value="${role.getName()}" th:text="${role.getName()}"
+										th:selected="${user.getRole().getName().equals(role.getName())}" />
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="interests">Interests</label>
+								<input th:value="${user.getInterests()}" type="text" class="form-control" id="interests" name="interests" placeholder="Interests">
+							</div>
+
+							<!-- Login Button -->
+							<div class="form-actions" style="margin-top: 12px;">
+								<button type="submit" class="btn btn-success">Edit</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <footer th:insert="blocks/footer :: footer"/> -->
+	<footer th:replace="fragments/common :: footer"></footer>
+</body>
+
+</html>
+

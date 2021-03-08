@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head ('Edit profile')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+	<div class="container">
+		<div style="width:600px;margin-left: auto;margin-right: auto;margin-top:24px;padding: 24px;">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-user"></i> Register
+				</div>
+				<div class="card-block" style="padding: 24px;">
+					<form action="#" th:action="@{/register}" th:object="${user}" method="post" >
+						<fieldset>
+							<!-- Thymeleaf + Spring Security error display -->
+							<div th:if="${param.error}" class="alert alert-danger">
+								Something went wrong =(
+							</div>
+
+							<!-- Login Controls -->
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+							</div>
+
+							<div class="form-group">
+								<label for="username">Name</label>
+								<input type="text" class="form-control" id="name" name="name" placeholder="Name" />
+							</div>
+
+							<div class="form-group">
+								<label for="username">Surname</label>
+								<input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" />
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+							</div>
+
+							<div class="form-group">
+								<label for="interests">Interests</label>
+								<input type="text" class="form-control" id="interests" name="interests" placeholder="Interests" />
+							</div>
+
+							<div class="form-group">
+								<label for="group">Group select</label>
+								<select name="group" class="form-control" id="group">
+									<option th:each="group :${groups}" th:value="${group.getName()}" th:text="${group.getName()}" />
+								</select>
+							</div>
+
+							<!-- Login Button -->
+							<div class="form-actions" style="margin-top: 12px;">
+								<button type="submit" class="btn btn-success">Register</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/common :: footer"></footer>
+
+</body>
+
+</html>
