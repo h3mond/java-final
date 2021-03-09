@@ -9,7 +9,7 @@
 
 		<div>
 			<h2 th:text="${quiz.name}"></h2>
-			<h6 class=" badge badge-dark">#<span th:text="${quiz.tag}"></span></h6>
+			<h6 class=" badge badge-success">#<span th:text="${quiz.tag}"></span></h6>
 			<p><strong>Description: </strong><span th:text="${quiz.text}"></span></p>
 		</div>
 
@@ -20,13 +20,13 @@
 			<div class="radio" th:each="option,i: ${question.options.entrySet()}">
 				<label>
 					<input type="radio" th:checked="${option.getKey().equals(question.getAnswerNumber())}"
-						th:name="${question.id}" id="" value="1" th:text=" *{option.getValue()}">
+						th:name="${question.id}" id="" value="1" th:text="*{option.getValue()}">
 				</label>
 			</div>
 			<form th:action="${'/question/remove/'+question}" method="post">
-				<input type="submit" class="btn btn-sm d-inline" value="Remove">
+				<input type="submit" class="btn btn-inline btn-sm btn-danger" value="Remove">
+				<a class="btn btn-sm btn-inline btn-success" th:href="${'/question/edit/'+question}">Edit</a>
 			</form>
-			<a class="btn btn-sm d-inline" th:href="${'/question/edit/'+question}">Edit</a>
 		</div>
 
 		<a class="btn btn-success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
@@ -58,7 +58,7 @@
 							<tfoot>
 								<tr>
 									<td colspan="5" style="text-align: left;">
-										<input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
+										<input type="button" class="btn btn-sm btn-info float-right " id="addrow" value="Add Row" />
 									</td>
 								</tr>
 								<tr>
@@ -84,8 +84,8 @@
 			var newRow = $("<tr>");
 			var cols = "";
 
-			cols += '<td><input type="radio" name="answerNumber" value="' + counter + '"><input type="text" class="form-control" name="options[' + counter + ']"/></td>'; 
-			cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+			cols += '<td><input type="radio" class="d-inline" name="answerNumber" value="' + counter + '"><input type="text" class="d-inline form-control" name="options[' + counter + ']"/></td>'; 
+			cols += '<td><input type="button" class="ibtnDel btn btn-md btn-success " value="Delete"></td>';
 			newRow.append(cols);
 			$("table.order-list").append(newRow);
 			counter++;
