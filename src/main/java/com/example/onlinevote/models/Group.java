@@ -20,7 +20,7 @@ public class Group {
 
 	private String name;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "group_id")
 	private List<User> userList;
 

@@ -83,7 +83,6 @@ public class UserController {
 			.id(user.getId())
 			.name(user.getName())
 			.surname(user.getSurname())
-			.username(user.getUsername())
 			.password(passwordEncoder.encode(user.getPassword()))
 			.role(roleRepository.getRoleByName(user.getRole()))
 			.group(groupRepository.getGroupByName(user.getGroup()))

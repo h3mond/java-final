@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head th:replace="fragments/common :: head ('Groups')"></head>
+
+<body>
+	<header th:insert="blocks/header :: header" />
+	<div class="container mt-5">
+		<ul class="list-group">
+			<li th:each="group : ${groups}" class="list-group-item d-flex justify-content-between align-items-center">
+
+				<span th:text="${ group.getName() }"/>
+
+				<a th:href="${'/group/edit?id=' + group.getId()}" class="btn btn-success btn-sm">Edit</a>
+
+				<form th:action="@{/group/delete}" method="post" class="float-right">
+					<input type="hidden" th:name="id" th:value="${group.getId()}" />
+					<button type="submit" class="btn btn-danger btn-sm" aria-label="Close">
+						Delete
+					</button>
+				</form>
+
+				<!-- <span class="badge bg-primary rounded-pill">14</span> -->
+			</li>
+		</ul>
+
+		<br>
+
+		<a class="btn btn-success" href="/group/add" sec:authorize="hasRole('ROLE_ADMIN')">Add group</a>
+
+	</div>
+	<footer th:replace="fragments/common :: footer"></footer>
+</body>
+
+</html>

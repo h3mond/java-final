@@ -7,12 +7,14 @@
 	<div th:insert="blocks/header :: header" />
 
 	<div class="container">
-		<div class="card card-white grid-margin mt-5">
-			<div class="card-body">
-				<h2><span th:text="${ me.getName() }" /> <span th:text="${ me.getSurname() }" /></h2>
-				<p><strong>Group</strong>: <span th:text="${ me.getGroup().getName() }"/></p>
-				<p><strong>Interests</strong>: <span th:text="${ me.getInterests() }"/></p>
-				<a class="btn btn-info p-1" href="/profile/edit">Edit</a>
+		<div style="width:600px;margin-left: auto;margin-right: auto;margin-top:24px;padding: 24px;">
+			<div class="card">
+				<div class="card-body" style="padding: 24px">
+					<h2><span th:text="${ me.getName() }" /> <span th:text="${ me.getSurname() }" /></h2>
+					<p><strong>Group</strong>: <span th:text="${ me.getGroup().getName() }" /></p>
+					<p><strong>Interests</strong>: <span th:text="${ me.getInterests() }" /></p>
+					<a class="btn btn-success" href="/profile/edit">Edit</a>
+				</div>
 			</div>
 		</div>
 	</div>

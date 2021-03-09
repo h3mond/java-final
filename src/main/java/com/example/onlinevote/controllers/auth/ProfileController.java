@@ -41,7 +41,7 @@ public class ProfileController {
 
 	@GetMapping("edit")
 	public String editProfilePage(Model model, Principal principal) {
-		User user= userService.getUserByUsername(principal.getName());
+		User user = userService.getUserByUsername(principal.getName());
 		Iterable<Group> groupList= groupRepository.findAll();
 
 		model.addAttribute("me", user);

@@ -16,6 +16,7 @@
 						<th>Username</th>
 						<th>Group</th>
 						<th>Score</th>
+						<th>Answers</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -24,6 +25,7 @@
 						<td th:text="${score.getUser().getUsername()}" />
 						<td th:text="${score.getUser().getGroup().getName()}" />data</td>
 						<td th:text="${score.getScore()}" />
+						<td><a th:href="${'/quiz/answers?user_id=' + score.getUser().getId() + '&quiz_id=' + score.getId()}"></a></td>
 					</tr>
 				</tbody>
 			</table>

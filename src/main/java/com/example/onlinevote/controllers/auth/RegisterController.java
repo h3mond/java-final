@@ -33,12 +33,14 @@ public class RegisterController {
 	@Autowired
 	private final UserService userService;
 
+
 	@GetMapping("/register")
 	public String signUpPage(Model model) {
 		Iterable<Group> groupList = groupRepository.findAll();
 		model.addAttribute("groups", groupList);
 		return "auth/register";
 	}
+
 
 	@PostMapping("/register")
 	public String signUp(@ModelAttribute("user") UserDTO user, Model model) {

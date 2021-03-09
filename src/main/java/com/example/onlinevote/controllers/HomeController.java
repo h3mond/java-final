@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.example.onlinevote.dto.ChoiceDTO;
 import com.example.onlinevote.dto.QuestionDTO;
+import com.example.onlinevote.hadoop.WordCount;
 import com.example.onlinevote.models.Quiz;
 import com.example.onlinevote.models.Question;
 import com.example.onlinevote.models.Choice;
@@ -90,13 +91,20 @@ public class HomeController {
 	}
 
 
+	@GetMapping("/hadoop")
+	public String hadoop(){
+		Thread thread = new Thread(new WordCount(questionRepository));
+		thread.start();
+		return "redirect:/";
+	}
+
+
 	@PostMapping("/pass/{quiz}")
 	public String passQuizPost(@PathVariable(name = "quiz") Quiz quiz,
 			Principal principal, Model model, 
 			HttpServletRequest httpServletRequest) {
 		User user = userService.getUserByUsername(principal.getName());
 
-		// List<Choice> choices = new ArrayList<>();
 		List<Choice> choices = new ArrayList<>();
 
 		for(Question q : quiz.getQuestions()){
@@ -104,11 +112,6 @@ public class HomeController {
 			Choice r = choiceRepository.save(new Choice( user, questionRepository.getById(c.getQuestionId()), c.getAnswerId()));
 			choices.add(r);
 		}
-
-		// quiz.getQuestions().forEach(e -> choices.add(new Choice(e.getId(), httpServletRequest.getParameter(String.valueOf(e.getId())))));
-		// choices.forEach(e -> resultRepository.save(new Result(user, questionRepository.getById(e.getQuestionId()), e.getAnswerId())));
-
-		// List<Result> resultList = resultRepository.getByQuestionQuizAndUser(quiz, user);
 
 		Score score = new Score();
 		score.setQuiz(quiz);

@@ -1,15 +1,16 @@
 package com.example.onlinevote.controllers;
 
+import java.util.Optional;
+
 import com.example.onlinevote.models.Group;
 import com.example.onlinevote.repositories.GroupRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
-
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -18,38 +19,58 @@ public class GroupController {
 	@Autowired
 	private final GroupRepository groupRepository;
 
+
+	@GetMapping
+	public String groups(Model model){
+		model.addAttribute("groups", groupRepository.findAll());
+		return "group/index";
+	}
+
 	@GetMapping("/add")
 	public String addGroupPage(Model model) {
 		model.addAttribute("group", new Group());
 		return "group/add";
 	}
 
+
 	@PostMapping("/add")
 	public String addGroup(@ModelAttribute Group group) {
-		groupRepository.save(group);
-		return "redirect:/";
+		if(group.getId() != 0){
+			Optional<Group> g = groupRepository.findById(group.getId());
+			g.get().setName(group.getName());
+		} else {
+			groupRepository.save(group);
+		}
+		return "redirect:/group";
 	}
 
-	@GetMapping("/edit/{group}")
-	public String editGroupPage(Model model, @PathVariable(name = "group") Group group) {
-		model.addAttribute("group", group);
+
+	@PostMapping("/delete")
+	public String delete(@RequestParam int id){
+		groupRepository.deleteById(id);
+		return "redirect:/group";
+	}
+
+
+	@GetMapping("/edit")
+	public String editGroupPage(@RequestParam(required = false, name = "id") int id, Model model) {
+		Optional<Group> group = groupRepository.findById(id);
+		if(group == null){
+			return "redirect:/group";
+		}
+		model.addAttribute("group", group.get());
+
 		return "group/edit";
 	}
 
-	@PostMapping("/edit/{id}")
-	public String editGroup(@PathVariable(name = "id") int id, @RequestParam(name = "txtName") String name) {
-		Optional<Group> group = groupRepository.findById(id);
-		if (group.isPresent()) {
-			Group group1 = group.get();
-			group1.setName(name);
-			groupRepository.save(group1);
-		}
-		return "redirect:/";
-	}
 
-	@GetMapping("/list")
-	public String getAllGroups(Model model) {
-		model.addAttribute("groups", groupRepository.findAll());
-		return "groups-page";
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute Group group){
+		Optional<Group> g = groupRepository.findById(group.getId());
+		if(g != null && g.isPresent()){
+			g.get().setName(group.getName());
+			groupRepository.save(g.get());
+		}
+		return "redirect:/group";
 	}
 }
